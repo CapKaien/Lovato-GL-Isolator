@@ -16,21 +16,36 @@ function Testimonials() {
   };
 
   const [visibleCards, setVisibleCards] = useState(getVisibleCards());
-  const maxIndex = TestimonialData.length - visibleCards;
+  
+  // Calculate maxIndex based on current state
+  const maxIndex = Math.max(0, TestimonialData.length - visibleCards);
 
   useEffect(() => {
     const handleResize = () => {
-      setVisibleCards(getVisibleCards());
+      const newVisibleCards = getVisibleCards();
+      setVisibleCards(newVisibleCards);
+      
       const container = containerRef.current;
       if (container) {
         const card = container.querySelector(".testimonial-card");
         if (card) setCardWidth(card.offsetWidth);
       }
+      
+      // Ensure currentIndex is valid with new visibleCards count
+      const newMaxIndex = Math.max(0, TestimonialData.length - newVisibleCards);
+      if (currentIndex > newMaxIndex) {
+        setCurrentIndex(newMaxIndex);
+        // Update GSAP transform to match new currentIndex
+        gsap.set(containerRef.current, {
+          x: -newMaxIndex * (cardWidth + gap),
+        });
+      }
     };
+    
     handleResize();
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
-  }, []);
+  }, [currentIndex, cardWidth]); // Add dependencies
 
   const handleScroll = (direction) => {
     let newIndex = currentIndex;
