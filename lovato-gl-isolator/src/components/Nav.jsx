@@ -1,9 +1,22 @@
-import { useState } from 'react'
-import menuItems from './data/menuItems'
+import { useState, useRef, useEffect } from "react";
+import gsap from "gsap";
+import { FaBars } from 'react-icons/fa'
+import menuItems from "./data/menuItems";
 
 function Nav() {
-  const [openIndex, setOpenIndex] = useState(null)
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const [openIndex, setOpenIndex] = useState(null);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const dropdownRefs = useRef([]);
+
+  useEffect(() => {
+    if (openIndex !== null && dropdownRefs.current[openIndex]) {
+      gsap.fromTo(
+        dropdownRefs.current[openIndex],
+        { y: -20, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.3, ease: "power2.out" }
+      );
+    }
+  }, [openIndex]);
 
   return (
     <nav className="w-full backdrop-blur-md bg-white/60 border-b border-gray-200 px-4 sm:px-8 py-4 flex items-center justify-between shadow-sm relative z-[60]">
@@ -15,7 +28,7 @@ function Nav() {
         className="sm:hidden text-[#FA4515] text-3xl bg-transparent outline-none border-none"
         onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
       >
-        ☰
+        <FaBars />
       </button>
 
       {/* Desktop Menu */}
@@ -29,16 +42,19 @@ function Nav() {
               {item.name}
             </button>
             {/* Dropdown */}
-            {openIndex === idx && (
-              <div className="fixed left-0 top-[72px] w-full bg-white shadow-lg border-t border-gray-200 z-[100]">
-                <div className="max-w-6xl mx-auto py-8 px-8 flex flex-col gap-4 text-left">
-                  <span className="font-bold text-lg text-[#FA4515]">
-                    {item.name}
-                  </span>
-                  {item.description}
-                </div>
+            <div
+              ref={(el) => (dropdownRefs.current[idx] = el)}
+              className={`fixed left-0 top-[72px] w-full bg-white shadow-lg border-t border-gray-200 z-[100] ${
+                openIndex === idx ? "block" : "hidden"
+              }`}
+            >
+              <div className="max-w-6xl mx-auto py-8 px-8 flex flex-col gap-4 text-left">
+                <span className="font-bold text-lg text-[#FA4515]">
+                  {item.name}
+                </span>
+                {item.description}
               </div>
-            )}
+            </div>
           </div>
         ))}
       </div>
@@ -68,7 +84,7 @@ function Nav() {
         </div>
       )}
     </nav>
-  )
+  );
 }
 
-export default Nav
+export default Nav;
