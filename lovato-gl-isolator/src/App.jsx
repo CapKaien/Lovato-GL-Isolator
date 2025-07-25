@@ -3,6 +3,7 @@ import Hero from './components/Hero'
 import Footer from './components/Footer'
 import Nav from './components/Nav'
 import './App.css'
+import menuItems from './components/data/menuItems'
 
 function App() {
   return (
