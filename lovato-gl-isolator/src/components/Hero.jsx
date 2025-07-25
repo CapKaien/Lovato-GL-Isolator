@@ -1,6 +1,5 @@
 import React, { useEffect, useRef } from 'react'
 import switchImg from '../assets/img/switch.png'
-import clientsImg from '../assets/img/clients.png' // Add this import at the top
 import { FiZap, FiGrid, FiBox, FiLock, FiSettings } from 'react-icons/fi'
 import gsap from 'gsap'
 import SplitType from 'split-type'
