@@ -8,10 +8,8 @@ function App() {
   return (
     <Router>
       <Nav />
-      <Routes>
-        <Route path="/" element={<Hero />} />
-        <Route path="/footer" element={<Footer />} />
-      </Routes>
+      <Hero />
+      <Footer />
     </Router>
   )
 }
