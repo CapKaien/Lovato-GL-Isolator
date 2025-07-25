@@ -49,8 +49,12 @@ function Hero() {
   const cardRefs = useRef([])
 
   useEffect(() => {
+    // Store current ref values for cleanup
+    const h1Element = h1Ref.current
+    const pElement = pRef.current
+
     // Split and animate h1
-    const h1Split = new SplitType(h1Ref.current, { types: 'words, chars' })
+    const h1Split = new SplitType(h1Element, { types: 'words, chars' })
     gsap.from(h1Split.chars, {
       y: 60,
       opacity: 0,
@@ -60,7 +64,7 @@ function Hero() {
     })
 
     // Split and animate p
-    const pSplit = new SplitType(pRef.current, { types: 'words' })
+    const pSplit = new SplitType(pElement, { types: 'words' })
     gsap.from(pSplit.words, {
       y: 30,
       opacity: 0,
@@ -70,6 +74,17 @@ function Hero() {
       ease: 'power2.out',
     })
 
+    // Cleanup function to prevent memory leaks
+    return () => {
+      if (h1Split) {
+        h1Split.revert()
+      }
+      if (pSplit) {
+        pSplit.revert()
+      }
+      // Kill any running GSAP animations on these elements
+      gsap.killTweensOf([h1Element, pElement])
+    }
   }, [])
 
   return (
