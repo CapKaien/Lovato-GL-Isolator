@@ -1,5 +1,5 @@
-import React, { useEffect, useRef } from "react";
-import { FiZap, FiSettings, FiToggleLeft } from "react-icons/fi";
+import React, { useEffect, useRef, useState } from "react";
+import { FiZap, FiSettings, FiToggleLeft, FiToggleRight } from "react-icons/fi";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import sampleImg from "../assets/img/man.jpg";
@@ -20,6 +20,8 @@ const contentData = [
 
 function Content() {
   const sectionRef = useRef(null);
+  const toggleIconRef = useRef(null);
+  const [isSafe, setIsSafe] = useState(true);
 
   useEffect(() => {
     const boxes = sectionRef.current.querySelectorAll(".animate-box");
@@ -37,12 +39,25 @@ function Content() {
           scrollTrigger: {
             trigger: box,
             start: "top 85%",
-            scroller: "[data-scroll-container]", // 👈 important
+            scroller: "[data-scroll-container]",
           },
         }
       );
     });
   }, []);
+
+  const handleToggle = () => {
+    // Simple flip animation
+    gsap.to(toggleIconRef.current, {
+      rotationY: 180,
+      duration: 0.4,
+      ease: "power2.inOut",
+      onComplete: () => {
+        setIsSafe((prev) => !prev);
+        gsap.set(toggleIconRef.current, { rotationY: 0 }); // reset for next flip
+      },
+    });
+  };
 
   return (
     <section
@@ -57,10 +72,21 @@ function Content() {
           className="w-full max-w-lg h-auto object-cover rounded-2xl"
         />
         {/* Safe Switching badge */}
-        <div className="absolute bottom-4 right-4 bg-white rounded-xl p-2 shadow flex items-center space-x-2">
-          <div className="text-xs text-gray-600">Safe Switching</div>
-          <FiToggleLeft className="w-5 h-5 text-green-600" />
-        </div>
+        <button
+          onClick={handleToggle}
+          className="absolute bottom-4 right-4 bg-white rounded-xl p-2 shadow flex items-center space-x-2 hover:scale-105 transition-transform"
+        >
+          <div className={`text-xs font-medium ${isSafe ? "text-gray-600" : "text-red-600"}`}>
+            {isSafe ? "Safe Switching" : "Switch Off"}
+          </div>
+          <div ref={toggleIconRef}>
+            {isSafe ? (
+              <FiToggleLeft className="w-5 h-5 text-green-600" />
+            ) : (
+              <FiToggleRight className="w-5 h-5 text-red-600" />
+            )}
+          </div>
+        </button>
       </div>
 
       {/* Right Text and Cards */}

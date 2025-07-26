@@ -9,7 +9,7 @@ function Footer() {
   return (
     <footer className="relative bg-[#111827] text-white w-screen px-6 md:px-20 pt-36 pb-36 overflow-visible">
       <div
-className="absolute left-1/2 -translate-x-1/2 bg-[#FA4515] rounded-[32px] shadow-md z-10 flex flex-col items-center justify-center text-center px-4 w-[90%] max-w-[1200px] h-[300px]"
+        className="absolute left-1/2 -translate-x-1/2 bg-[#FA4515] rounded-[32px] shadow-md z-10 flex flex-col items-center justify-center text-center px-4 w-[90%] max-w-[1200px] h-[300px]"
         style={{ top: "-150px" }}
       >
         <h4 className="text-white text-2xl sm:text-3xl md:text-4xl font-medium mb-15">
@@ -88,7 +88,7 @@ className="absolute left-1/2 -translate-x-1/2 bg-[#FA4515] rounded-[32px] shadow
       <div className="w-full h-px bg-gray-600 mb-6" />
 
       {/* Bottom section */}
-      <div className="flex flex-col md:flex-row items-center justify-between text-sm gap-4 text-gray-400">
+      <div className="flex flex-col md:flex-row items-center justify-between text-sm gap-4 text-gray-400 mb-15">
         {/* Social Icons */}
         <div className="flex gap-4">
           <FaXTwitter className="hover:text-white cursor-pointer" />

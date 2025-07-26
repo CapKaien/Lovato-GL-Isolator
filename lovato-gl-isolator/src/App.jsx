@@ -6,6 +6,7 @@ import Nav from "./components/Nav";
 import Content from "./components/Content";
 import Testimonials from "./components/Testimonials";
 import ScrollWrapper from "./components/ScrollWrapper";
+import ChatbotWidget from "./components/ChatbotWidget";
 import "./App.css";
 
 function App() {
@@ -20,6 +21,7 @@ function App() {
               <div data-scroll-section>
                 <Hero />
                 <Content />
+                <ChatbotWidget />
                 <Testimonials />
                 <Footer />
               </div>
