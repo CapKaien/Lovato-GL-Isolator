@@ -22,8 +22,14 @@ function Content() {
   const sectionRef = useRef(null);
 
   useEffect(() => {
+    if (!sectionRef.current) return;
+
     const boxes = sectionRef.current.querySelectorAll(".animate-box");
 
+    // Ensure boxes are visible initially
+    gsap.set(boxes, { opacity: 1, y: 0 });
+
+    // Then apply the animation
     boxes.forEach((box, idx) => {
       gsap.fromTo(
         box,
@@ -37,10 +43,22 @@ function Content() {
           scrollTrigger: {
             trigger: box,
             start: "top 85%",
+            toggleActions: "play none none reverse",
+            refreshPriority: -1,
           },
         }
       );
     });
+
+    // Refresh ScrollTrigger after a brief delay to ensure proper initialization
+    const timer = setTimeout(() => {
+      ScrollTrigger.refresh();
+    }, 100);
+
+    return () => {
+      clearTimeout(timer);
+      ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+    };
   }, []);
 
   return (
@@ -85,7 +103,8 @@ function Content() {
             {contentData.map((item, idx) => (
               <div
                 key={idx}
-                className="animate-box bg-white border border-gray-200 rounded-xl p-4 flex flex-col items-start hover:shadow-lg transition-shadow"
+                className="animate-box bg-white border border-gray-200 rounded-xl p-4 flex flex-col items-start hover:shadow-lg transition-shadow opacity-100"
+                style={{ opacity: 1, transform: 'translateY(0px)' }}
               >
                 <div className="mb-2">{item.icon}</div>
                 <h3 className="text-sm font-semibold mb-1 text-[#2b2b2b]">
