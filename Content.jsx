@@ -1,8 +1,9 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { FiZap, FiSettings, FiToggleLeft } from "react-icons/fi";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import sampleImg from "../assets/img/man.jpg";
+
 gsap.registerPlugin(ScrollTrigger);
 
 const contentData = [
@@ -20,39 +21,49 @@ const contentData = [
 
 function Content() {
   const sectionRef = useRef(null);
+  const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
-    if (!sectionRef.current) return;
+    // Set initial state to visible
+    setIsLoaded(true);
+    
+    const initAnimations = () => {
+      if (!sectionRef.current) return;
+      
+      const boxes = sectionRef.current.querySelectorAll(".animate-box");
+      
+      // First, make sure all boxes are visible
+      gsap.set(boxes, { opacity: 1, y: 0 });
+      
+      // Kill any existing ScrollTriggers
+      ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+      
+      // Then set up animations
+      boxes.forEach((box, idx) => {
+        gsap.fromTo(
+          box,
+          { opacity: 0, y: 40 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.6,
+            delay: idx * 0.15,
+            ease: "power3.out",
+            scrollTrigger: {
+              trigger: box,
+              start: "top 85%",
+              toggleActions: "play none none none",
+              once: true,
+            },
+          }
+        );
+      });
 
-    const boxes = sectionRef.current.querySelectorAll(".animate-box");
-
-    // Ensure boxes are visible initially
-    gsap.set(boxes, { opacity: 1, y: 0 });
-
-    // Then apply the animation
-    boxes.forEach((box, idx) => {
-      gsap.fromTo(
-        box,
-        { opacity: 0, y: 40 },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 0.6,
-          delay: idx * 0.15,
-          ease: "power3.out",
-          scrollTrigger: {
-            trigger: box,
-            start: "top 85%",
-            toggleActions: "play none none reverse",
-            refreshPriority: -1,
-          },
-        }
-      );
-    });
-
-    // Refresh ScrollTrigger after a brief delay to ensure proper initialization
-    const timer = setTimeout(() => {
       ScrollTrigger.refresh();
+    };
+
+    const timer = setTimeout(() => {
+      initAnimations();
     }, 100);
 
     return () => {
@@ -74,7 +85,6 @@ function Content() {
             alt="Lovato GL Isolator Switch"
             className="w-full max-w-xs sm:max-w-sm lg:max-w-lg h-auto max-h-[400px] object-cover rounded-2xl"
           />
-          {/* Safe Switching badge */}
           <div className="absolute bottom-2 right-2 lg:bottom-4 lg:right-4 bg-white rounded-xl p-2 shadow flex items-center space-x-2">
             <div className="text-xs text-gray-600">Safe Switching</div>
             <FiToggleLeft className="w-5 h-5 text-green-600" />
@@ -103,8 +113,14 @@ function Content() {
             {contentData.map((item, idx) => (
               <div
                 key={idx}
-                className="animate-box bg-white border border-gray-200 rounded-xl p-4 flex flex-col items-start hover:shadow-lg transition-shadow opacity-100"
-                style={{ opacity: 1, transform: 'translateY(0px)' }}
+                className={`animate-box bg-white border border-gray-200 rounded-xl p-4 flex flex-col items-start hover:shadow-lg transition-shadow ${
+                  isLoaded ? 'opacity-100' : 'opacity-0'
+                }`}
+                style={{
+                  opacity: 1,
+                  transform: 'translateY(0px)',
+                  visibility: 'visible'
+                }}
               >
                 <div className="mb-2">{item.icon}</div>
                 <h3 className="text-sm font-semibold mb-1 text-[#2b2b2b]">
