@@ -119,30 +119,33 @@ function Hero() {
     };
   }, []);
 
-  useEffect(() => {
-    if (!logoTrackRef.current) return;
+useEffect(() => {
+  if (!logoTrackRef.current || clients.length === 0) return;
 
-    const el = logoTrackRef.current;
+  const el = logoTrackRef.current;
 
-    requestAnimationFrame(() => {
-      const trackWidth = el.scrollWidth / 2;
-      const duration = 30;
+  // Allow DOM to update
+  const timeout = setTimeout(() => {
+    const trackWidth = el.scrollWidth / 2;
+    const duration = 30;
 
-      gsap.to(el, {
-        x: `-=${trackWidth}`,
-        duration: duration,
-        ease: "linear",
-        repeat: -1,
-        modifiers: {
-          x: gsap.utils.unitize((x) => parseFloat(x) % trackWidth),
-        },
-      });
+    gsap.to(el, {
+      x: `-=${trackWidth}`,
+      duration: duration,
+      ease: "linear",
+      repeat: -1,
+      modifiers: {
+        x: gsap.utils.unitize((x) => parseFloat(x) % trackWidth),
+      },
     });
+  }, 100); // Small delay allows images to load
 
-    return () => {
-      gsap.killTweensOf(el);
-    };
-  }, [clients]); // 👈 Important to re-run when logos are loaded
+  return () => {
+    clearTimeout(timeout);
+    gsap.killTweensOf(el);
+  };
+}, [clients]);
+
 
   return (
     <section
