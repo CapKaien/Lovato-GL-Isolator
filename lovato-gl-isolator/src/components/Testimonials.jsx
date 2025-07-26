@@ -1,108 +1,112 @@
-import React, { useRef, useState, useEffect } from "react";
-import { FiArrowLeft, FiArrowRight } from "react-icons/fi";
-import gsap from "gsap";
+import React, { useState } from "react";
+import { FiChevronLeft, FiChevronRight, FiStar } from "react-icons/fi";
 import TestimonialData from "./data/TestimonialData";
 
 function Testimonials() {
-  const containerRef = useRef(null);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [cardWidth, setCardWidth] = useState(280);
-  const gap = 16;
 
-  const getVisibleCards = () => {
-    if (window.innerWidth >= 1024) return 3;
-    if (window.innerWidth >= 640) return 2;
-    return 1;
+  const nextTestimonial = () => {
+    setCurrentIndex((prev) => (prev + 1) % TestimonialData.length);
   };
 
-  const [visibleCards, setVisibleCards] = useState(getVisibleCards());
-  const maxIndex = TestimonialData.length - visibleCards;
+  const prevTestimonial = () => {
+    setCurrentIndex((prev) => (prev - 1 + TestimonialData.length) % TestimonialData.length);
+  };
 
-  useEffect(() => {
-    const handleResize = () => {
-      setVisibleCards(getVisibleCards());
-      const container = containerRef.current;
-      if (container) {
-        const card = container.querySelector(".testimonial-card");
-        if (card) setCardWidth(card.offsetWidth);
-      }
-    };
-    handleResize();
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
-
-  const handleScroll = (direction) => {
-    let newIndex = currentIndex;
-    if (direction === "left") {
-      newIndex = Math.max(currentIndex - 1, 0);
-    } else {
-      newIndex = Math.min(currentIndex + 1, maxIndex);
-    }
-    setCurrentIndex(newIndex);
-
-    gsap.to(containerRef.current, {
-      x: -newIndex * (cardWidth + gap),
-      duration: 0.5,
-      ease: "power3.out",
-    });
+  const goToTestimonial = (index) => {
+    setCurrentIndex(index);
   };
 
   return (
-    <section className="w-full max-w-6xl mx-auto py-12 px-4 md:py-16 overflow-hidden">
+    <section className="w-full max-w-4xl mx-auto px-4 py-16 md:py-20">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-6 gap-4">
-        <div className="text-left">
-          <span className="text-xs uppercase tracking-wide text-gray-500">
-            What They Say
-          </span>
-          <h2 className="text-2xl md:text-3xl font-semibold text-[#2b2b2b] mt-1">
-            Used and Loved Worldwide
-          </h2>
+      <div className="text-center mb-12">
+        <span className="text-xs uppercase tracking-wide text-gray-500 mb-2 block">
+          Testimonials
+        </span>
+        <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-[#2b2b2b] mb-4">
+          What Our Customers Say
+        </h2>
+        <p className="text-gray-600 text-sm sm:text-base max-w-2xl mx-auto">
+          Discover how our solutions have transformed businesses worldwide
+        </p>
+      </div>
+
+      {/* Main Testimonial Card */}
+      <div className="relative bg-white rounded-2xl shadow-xl p-6 sm:p-8 lg:p-12 mb-8">
+        {/* Quote Icon */}
+        <div className="absolute top-4 left-4 sm:top-6 sm:left-6 text-4xl sm:text-6xl text-gray-200 font-serif">
+          "
         </div>
-        <div className="flex items-center space-x-2">
-          <button
-            onClick={() => handleScroll("left")}
-            className="p-2 rounded-md bg-gray-100 hover:bg-gray-200 transition"
-          >
-            <FiArrowLeft className="w-5 h-5 text-[#2b2b2b]" />
-          </button>
-          <button
-            onClick={() => handleScroll("right")}
-            className="p-2 rounded-md bg-gray-100 hover:bg-gray-200 transition"
-          >
-            <FiArrowRight className="w-5 h-5 text-[#2b2b2b]" />
-          </button>
+        
+        {/* Stars */}
+        <div className="flex justify-center mb-6">
+          {[...Array(5)].map((_, i) => (
+            <FiStar key={i} className="w-5 h-5 text-yellow-400 fill-current" />
+          ))}
+        </div>
+
+        {/* Quote */}
+        <div className="text-center">
+          <blockquote className="text-lg sm:text-xl lg:text-2xl text-[#2b2b2b] leading-relaxed mb-8 font-medium italic min-h-[120px] flex items-center justify-center">
+            {TestimonialData[currentIndex].quote}
+          </blockquote>
+          
+          {/* Customer Info */}
+          <div className="flex flex-col items-center">
+            <div className="w-16 h-16 bg-gradient-to-br from-blue-400 to-purple-500 rounded-full flex items-center justify-center text-white font-bold text-xl mb-4">
+              {TestimonialData[currentIndex].name.charAt(0)}
+            </div>
+            <h3 className="text-lg sm:text-xl font-semibold text-[#2b2b2b] mb-1">
+              {TestimonialData[currentIndex].name}
+            </h3>
+            <p className="text-gray-600 text-sm sm:text-base">
+              {TestimonialData[currentIndex].location}
+            </p>
+          </div>
         </div>
       </div>
 
-      {/* Testimonial Cards */}
-      <div className="relative w-full overflow-hidden">
-        <div
-          ref={containerRef}
-          className="flex gap-4"
-          style={{ willChange: "transform" }}
+      {/* Navigation */}
+      <div className="flex items-center justify-between">
+        {/* Previous Button */}
+        <button
+          onClick={prevTestimonial}
+          className="flex items-center justify-center w-12 h-12 sm:w-14 sm:h-14 bg-white border-2 border-gray-200 rounded-full hover:border-gray-300 hover:shadow-lg transition-all duration-200 group"
+          aria-label="Previous testimonial"
         >
-          {TestimonialData.map((item, idx) => (
-            <div
-              key={idx}
-              className="testimonial-card w-[280px] sm:w-[320px] flex-shrink-0 bg-white border border-gray-200 rounded-xl p-4 shadow hover:shadow-md transition flex flex-col justify-between"
-            >
-              <p className="text-sm text-left text-[#2b2b2b] mb-4">
-                {item.quote}
-              </p>
-              <div className="flex items-center space-x-2 mt-4">
-                <div className="w-8 h-8 rounded-full bg-gray-300 shrink-0" />
-                <div className="text-left">
-                  <p className="text-sm font-semibold text-[#2b2b2b]">
-                    {item.name}
-                  </p>
-                  <p className="text-xs text-gray-600">{item.location}</p>
-                </div>
-              </div>
-            </div>
+          <FiChevronLeft className="w-5 h-5 sm:w-6 sm:h-6 text-gray-600 group-hover:text-[#2b2b2b] transition-colors" />
+        </button>
+
+        {/* Dots Indicator */}
+        <div className="flex space-x-2 sm:space-x-3">
+          {TestimonialData.map((_, index) => (
+            <button
+              key={index}
+              onClick={() => goToTestimonial(index)}
+              className={`w-2 h-2 sm:w-3 sm:h-3 rounded-full transition-all duration-200 ${
+                index === currentIndex
+                  ? "bg-[#2b2b2b] scale-125"
+                  : "bg-gray-300 hover:bg-gray-400"
+              }`}
+              aria-label={`Go to testimonial ${index + 1}`}
+            />
           ))}
         </div>
+
+        {/* Next Button */}
+        <button
+          onClick={nextTestimonial}
+          className="flex items-center justify-center w-12 h-12 sm:w-14 sm:h-14 bg-white border-2 border-gray-200 rounded-full hover:border-gray-300 hover:shadow-lg transition-all duration-200 group"
+          aria-label="Next testimonial"
+        >
+          <FiChevronRight className="w-5 h-5 sm:w-6 sm:h-6 text-gray-600 group-hover:text-[#2b2b2b] transition-colors" />
+        </button>
+      </div>
+
+      {/* Counter */}
+      <div className="text-center mt-6 text-sm text-gray-500">
+        {currentIndex + 1} of {TestimonialData.length}
       </div>
     </section>
   );
