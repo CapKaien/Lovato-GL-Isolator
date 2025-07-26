@@ -1,21 +1,12 @@
 #root {
-  max-width: 1280px;
-  margin: 0 auto;
+  max-width: 100%;
+  margin: 0;
   padding: 0;
-  text-align: center;
 }
 
-@media (min-width: 640px) {
-  #root {
-    padding: 1rem;
-  }
-}
 
-@media (min-width: 1024px) {
-  #root {
-    padding: 2rem;
-  }
-}
+
+
 
 .logo {
   height: 6em;
@@ -58,3 +49,4 @@ body {
   background: radial-gradient(50% 50% at 50% 50%, rgb(252, 175, 154) 0%, rgb(255, 255, 255) 100%);
   font-family: 'Inter', sans-serif;
 }
+

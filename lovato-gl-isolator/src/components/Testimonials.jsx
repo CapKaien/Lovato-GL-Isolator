@@ -46,11 +46,11 @@ export default function Testimonials() {
   ];
 
   return (
-    <section className="max-w-6xl mx-auto px-4 py-16">
+    <section className="data-scroll-section max-w-6xl mx-auto px-4 py-16 mb-30">
       {/* Top Header */}
       <div className="flex justify-between items-start mb-10">
         <div>
-          <p className="text-sm text-gray-500 font-medium tracking-wider">
+          <p className="text-sm text-[#FA4515] font-medium tracking-wider">
             WHAT THEY SAY
           </p>
           <h3 className="text-3xl font-semibold text-gray-900">

@@ -1,30 +1,36 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
-import Hero from './components/Hero'
-import Footer from './components/Footer'
-import Nav from './components/Nav'
-import './App.css'
-import Content from './components/Content'
-import Testimonials from './components/Testimonials'
+// src/App.jsx
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Hero from "./components/Hero";
+import Footer from "./components/Footer";
+import Nav from "./components/Nav";
+import Content from "./components/Content";
+import Testimonials from "./components/Testimonials";
+import ScrollWrapper from "./components/ScrollWrapper";
+import "./App.css";
 
 function App() {
   return (
     <Router>
       <Nav />
-      <Routes>
-        <Route
-          path="/"
-          element={
-            <>
-              <Hero />
-              <Content />
-              <Testimonials />
-            </>
-          }
-        />
-      </Routes>
-      {/* <Footer /> */}
+      <ScrollWrapper>
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <div data-scroll-section>
+                <Hero />
+                <Content />
+                <Testimonials />
+                <Footer />
+              </div>
+            }
+          />
+        </Routes>
+        {/* Optional: place Footer inside scroll if needed */}
+        
+      </ScrollWrapper>
     </Router>
-  )
+  );
 }
 
-export default App
+export default App;

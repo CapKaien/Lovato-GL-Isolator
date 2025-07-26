@@ -74,7 +74,8 @@ function Hero() {
             name: "Honeywell",
             logo: "https://logo.clearbit.com/honeywell.com",
           },
-          { name: "Legrand", logo: "https://logo.clearbit.com/legrand.com" },
+          { name: "Legrand", 
+            logo: "https://logo.clearbit.com/legrand.com" },
         ]);
       });
   }, []);
@@ -145,7 +146,7 @@ function Hero() {
 
   return (
     <section
-      className="relative w-full min-h-screen flex flex-col items-center justify-center px-4 py-10"
+      className="data-scroll-section relative w-full min-h-screen flex flex-col items-center justify-center px-4 py-10"
       style={{
         background: "transparent",
         fontFamily: "Inter, sans-serif",

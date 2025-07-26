@@ -46,16 +46,16 @@ function Content() {
   return (
     <section
       ref={sectionRef}
-      className="w-full max-w-6xl mx-auto px-4 py-16 flex flex-wrap md:flex-nowrap items-center gap-8 md:gap-12"
+      className="data-scroll-section w-full max-w-6xl mx-auto px-4 py-16 flex flex-wrap items-start gap-8 md:gap-12"
     >
       {/* Left Image */}
-      <div className="w-full md:w-1/2 relative flex items-center justify-center overflow-hidden">
+      <div className="w-full md:max-w-[48%] flex-shrink-0 relative flex items-center justify-center overflow-visible">
+        {" "}
         <img
           src={sampleImg}
           alt="Lovato GL Isolator Switch"
           className="w-full max-w-xs sm:max-w-sm md:max-w-lg h-auto max-h-[400px] object-cover rounded-2xl"
         />
-
         {/* Safe Switching badge */}
         <div className="absolute bottom-2 right-2 md:bottom-4 md:right-4 bg-white rounded-xl p-2 shadow flex items-center space-x-2">
           <div className="text-xs text-gray-600">Safe Switching</div>
@@ -64,18 +64,19 @@ function Content() {
       </div>
 
       {/* Right Text and Cards */}
-      <div className="w-full md:w-1/2 flex flex-col text-left">
+      <div className="w-full md:flex-1 flex flex-col text-left">
         <div className="mb-6">
-          <span className="text-xs uppercase tracking-wide text-gray-500">
+          <span className="text-xs uppercase tracking-wide text-[#FA4515]">
             How It Works
           </span>
           <h2 className="text-lg sm:text-xl md:text-3xl font-semibold mt-2 mb-4 text-[#2b2b2b]">
             Lovato GL Isolator: Built for Modern Power Systems
           </h2>
           <p className="text-sm sm:text-base md:text-lg text-[#2b2b2b]">
-            Experience safe, reliable, and intelligent switching solutions designed for critical
-            energy infrastructures. Lovato GL Isolator ensures operational efficiency, modular
-            scalability, and seamless system protection.
+            Experience safe, reliable, and intelligent switching solutions
+            designed for critical energy infrastructures. Lovato GL Isolator
+            ensures operational efficiency, modular scalability, and seamless
+            system protection.
           </p>
         </div>
 
