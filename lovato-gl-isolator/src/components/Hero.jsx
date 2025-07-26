@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import switchImg from '../assets/img/switch.png'
 import { FiZap, FiGrid, FiBox, FiLock, FiSettings } from 'react-icons/fi'
 import gsap from 'gsap'
@@ -47,6 +47,15 @@ function Hero() {
   const h1Ref = useRef(null)
   const pRef = useRef(null)
   const cardRefs = useRef([])
+  const logoTrackRef = useRef(null)
+  const [clients, setClients] = useState([
+    { name: "Client 1", logo: client1 },
+    { name: "Client 2", logo: client2 },
+    { name: "Client 3", logo: client3 },
+    { name: "Client 4", logo: client4 },
+    { name: "Client 5", logo: client5 },
+    { name: "Client 6", logo: client6 },
+  ])
 
   useEffect(() => {
     // Split and animate h1
@@ -70,7 +79,41 @@ function Hero() {
       ease: 'power2.out',
     })
 
+    // Cleanup function to prevent memory leaks
+    return () => {
+      if (h1Split) {
+        h1Split.revert();
+      }
+      if (pSplit) {
+        pSplit.revert();
+      }
+      // Kill any running GSAP animations on these elements
+      gsap.killTweensOf([h1Ref.current, pRef.current]);
+    };
   }, [])
+
+  // GSAP Logo Animation
+  useEffect(() => {
+    if (!logoTrackRef.current || clients.length === 0) return;
+
+    const track = logoTrackRef.current;
+    const trackWidth = track.scrollWidth / 2; // since we duplicate the logos
+    
+    // Set initial position
+    gsap.set(track, { x: 0 });
+    
+    // Create the infinite sliding animation
+    const animation = gsap.to(track, {
+      x: -trackWidth,
+      duration: 20, // Adjust speed as needed
+      ease: "none",
+      repeat: -1,
+    });
+
+    return () => {
+      animation.kill();
+    };
+  }, [clients])
 
   return (
     <section
@@ -153,35 +196,32 @@ function Hero() {
         {/* Desktop: sliding animation */}
         <div className="relative w-full overflow-hidden hidden md:block">
           <div
-            className="flex items-center gap-12 animate-slide"
+            ref={logoTrackRef}
+            className="flex items-center gap-12"
             style={{
               width: 'max-content',
-              animation: 'slide 30s linear infinite',
             }}
           >
-            <img src={client1} alt="Client 1" className="h-12 md:h-16 w-auto" />
-            <img src={client2} alt="Client 2" className="h-12 md:h-16 w-auto" />
-            <img src={client3} alt="Client 3" className="h-12 md:h-16 w-auto" />
-            <img src={client4} alt="Client 4" className="h-12 md:h-16 w-auto" />
-            <img src={client5} alt="Client 5" className="h-12 md:h-16 w-auto" />
-            <img src={client6} alt="Client 6" className="h-12 md:h-16 w-auto" />
-            {/* Duplicate for seamless loop */}
-            <img src={client1} alt="Client 1" className="h-12 md:h-16 w-auto" />
-            <img src={client2} alt="Client 2" className="h-12 md:h-16 w-auto" />
-            <img src={client3} alt="Client 3" className="h-12 md:h-16 w-auto" />
-            <img src={client4} alt="Client 4" className="h-12 md:h-16 w-auto" />
-            <img src={client5} alt="Client 5" className="h-12 md:h-16 w-auto" />
-            <img src={client6} alt="Client 6" className="h-12 md:h-16 w-auto" />
+            {[...clients, ...clients].map((c, i) => (
+              <img
+                key={`client-${i}`}
+                src={c.logo}
+                alt={c.name}
+                className="h-12 md:h-16 w-auto object-contain"
+              />
+            ))}
           </div>
         </div>
         {/* Mobile: static row */}
         <div className="flex flex-wrap items-center justify-center gap-6 w-full md:hidden">
-          <img src={client1} alt="Client 1" className="h-10 w-auto" />
-          <img src={client2} alt="Client 2" className="h-10 w-auto" />
-          <img src={client3} alt="Client 3" className="h-10 w-auto" />
-          <img src={client4} alt="Client 4" className="h-10 w-auto" />
-          <img src={client5} alt="Client 5" className="h-10 w-auto" />
-          <img src={client6} alt="Client 6" className="h-10 w-auto" />
+          {clients.map((c, i) => (
+            <img
+              key={`client-mobile-${i}`}
+              src={c.logo}
+              alt={c.name}
+              className="h-10 w-auto object-contain"
+            />
+          ))}
         </div>
       </div>
     </section>
