@@ -6,7 +6,7 @@ import TestimonialData from "./data/TestimonialData";
 function Testimonials() {
   const containerRef = useRef(null);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [cardWidth, setCardWidth] = useState(320);
+  const [cardWidth, setCardWidth] = useState(280);
   const gap = 16;
 
   const getVisibleCards = () => {
@@ -49,7 +49,7 @@ function Testimonials() {
   };
 
   return (
-    <section className="w-full max-w-6xl mx-auto py-12 px-4 md:py-16">
+    <section className="w-full max-w-6xl mx-auto py-12 px-4 md:py-16 overflow-hidden">
       {/* Header */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-6 gap-4">
         <div className="text-left">
@@ -86,7 +86,7 @@ function Testimonials() {
           {TestimonialData.map((item, idx) => (
             <div
               key={idx}
-              className="testimonial-card w-[90%] sm:w-[320px] flex-shrink-0 bg-white border border-gray-200 rounded-xl p-4 shadow hover:shadow-md transition flex flex-col justify-between"
+              className="testimonial-card w-[280px] sm:w-[320px] flex-shrink-0 bg-white border border-gray-200 rounded-xl p-4 shadow hover:shadow-md transition flex flex-col justify-between"
             >
               <p className="text-sm text-left text-[#2b2b2b] mb-4">
                 {item.quote}
