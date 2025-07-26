@@ -2,9 +2,19 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>Chatbot Test</title>
+    <title>Lovato</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;700&display=swap" rel="stylesheet">
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@500;700&display=swap"
+      rel="stylesheet"
+    />
+    
+    <!-- Favicon with letter L -->
+    <link
+      rel="icon"
+      href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%2275%22 font-size=%2280%22 font-family=%22Inter%2C%20sans-serif%22>🅛</text></svg>"
+    />
+
     <script src="https://www.gstatic.com/dialogflow-console/fast/messenger/bootstrap.js?v=1"></script>
     <style>
       df-messenger {
@@ -18,19 +28,20 @@
   <body>
     <div id="root"></div>
 
-<df-messenger
-  intent="WELCOME"
-  chat-title="Lovato"
-  agent-id="89c18eaa-510d-4a08-8df7-1587e2d78d19"
-  language-code="en"
-  chat-icon="https://yourdomain.com/your-icon.png"
-  background-color="#000000"
-  text-color="#2b2b2b"
-  font-family="Inter"
-  primary-color="#FA4515"
-></df-messenger>
-
+    <df-messenger
+      intent="WELCOME"
+      chat-title="Lovato"
+      agent-id="89c18eaa-510d-4a08-8df7-1587e2d78d19"
+      language-code="en"
+      chat-icon="https://yourdomain.com/your-icon.png"
+      background-color="#000000"
+      text-color="#2b2b2b"
+      font-family="Inter"
+      primary-color="#FA4515"
+    ></df-messenger>
 
     <script type="module" src="/src/main.jsx"></script>
   </body>
+
+  
 </html>
