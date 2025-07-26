@@ -1,39 +1,39 @@
 const TestimonialData = [
   {
     quote:
-      '"Before ExFlow, I couldn\'t even get a SIM card without someone co-signing. Now I\'ve got a credit card, a phone plan, and even built my U.S. credit score in just a few months!"',
-    name: "Sarah",
-    location: "Australia → NYC",
+           "The Lovato GL Series automatic transfer switch has been absolutely reliable in our data center. Zero downtime during power transitions, and the installation was seamless.",
+    name: "Sarah Mitchell",
+    location: "Data Center Manager, Australia",
   },
   {
     quote:
-      '"I\'m a digital nomad, and moving countries used to reset everything financially. ExFlow changed that. It’s like carrying my financial identity with me in my pocket."',
-    name: "Luis",
-    location: "Mexico → Canada",
+      "We've installed Lovato GL isolators across multiple industrial sites. The modular design and fast switching capabilities have exceeded our expectations for power protection.",
+    name: "Luis Rodriguez",
+    location: "Industrial Engineer, Mexico",
   },
   {
     quote:
-      '"ExFlow made my relocation so much smoother. I got approved for an apartment before landing and started building credit immediately."',
-    name: "James",
-    location: "UK → USA",
+         "The GL Series motor protection relays saved us from costly equipment damage during a recent power surge. Outstanding build quality and reliability.",
+    name: "James Thompson",
+    location: "Maintenance Supervisor, UK",
   },
   {
     quote:
-      '"Seamless, quick, and exactly what I needed to establish myself financially abroad."',
-    name: "Anna",
-    location: "Germany → Singapore",
+      "Installation was straightforward, and the performance has been flawless. The Lovato GL products are exactly what our facility needed for reliable power management.",
+    name: "Anna Weber",
+    location: "Facility Manager, Germany",
   },
   {
     quote:
-      '"Thanks to ExFlow, I could get a car loan in a new country without hassle, and my move was stress-free!"',
-    name: "Emma",
-    location: "France → Canada",
+      "The energy meters provide precise monitoring, and the soft starters have improved our motor efficiency significantly. Great value for industrial applications.",
+    name: "Emma Dubois",
+    location: "Electrical Contractor, France",
   },
   {
     quote:
-      '"With ExFlow, it felt like I never left home. I could rent an apartment and open a bank account instantly."',
-    name: "Tom",
-    location: "New Zealand → Australia",
+     "Lovato GL automatic transfer switches have been operating flawlessly for over two years. The peace of mind they provide for our critical systems is invaluable.",
+    name: "Tom Anderson",
+    location: "Plant Engineer, New Zealand",
   },
 ];
 

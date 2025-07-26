@@ -1,111 +1,113 @@
-import React, { useRef, useState, useEffect } from "react";
-import { FiArrowLeft, FiArrowRight } from "react-icons/fi";
-import gsap from "gsap";
+import { useEffect, useRef, useState } from "react";
+import { FaArrowLeft, FaArrowRight, FaQuoteLeft } from "react-icons/fa";
+import { gsap } from "gsap";
 import TestimonialData from "./data/TestimonialData";
 
-function Testimonials() {
-  const containerRef = useRef(null);
+export default function Testimonials() {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [cardWidth, setCardWidth] = useState(320);
-  const gap = 16;
+  const [avatars, setAvatars] = useState([]);
+  const cardsRef = useRef([]);
 
-  const getVisibleCards = () => {
-    if (window.innerWidth >= 1024) return 3;
-    if (window.innerWidth >= 640) return 2;
-    return 1;
+  const prev = () => {
+    setCurrentIndex((prevIndex) =>
+      prevIndex === 0 ? TestimonialData.length - 1 : prevIndex - 1
+    );
   };
 
-  const [visibleCards, setVisibleCards] = useState(getVisibleCards());
-  const maxIndex = TestimonialData.length - visibleCards;
+  const next = () => {
+    setCurrentIndex((prevIndex) =>
+      prevIndex === TestimonialData.length - 1 ? 0 : prevIndex + 1
+    );
+  };
 
+  // Fetch real user avatars once
   useEffect(() => {
-    const handleResize = () => {
-      setVisibleCards(getVisibleCards());
-      const container = containerRef.current;
-      if (container) {
-        const card = container.querySelector(".testimonial-card");
-        if (card) setCardWidth(card.offsetWidth);
-      }
-    };
-    handleResize();
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
+    fetch("https://randomuser.me/api/?results=6&nat=us,gb,fr,de,au")
+      .then((res) => res.json())
+      .then((data) => {
+        setAvatars(data.results.map((user) => user.picture.medium));
+      })
+      .catch(() => {
+        setAvatars([]); // fallback to default avatars if needed
+      });
   }, []);
 
-  const handleScroll = (direction) => {
-    let newIndex = currentIndex;
-    if (direction === "left") {
-      newIndex = Math.max(currentIndex - 1, 0);
-    } else {
-      newIndex = Math.min(currentIndex + 1, maxIndex);
-    }
-    setCurrentIndex(newIndex);
+  useEffect(() => {
+    gsap.fromTo(
+      cardsRef.current,
+      { x: 50, opacity: 0 },
+      { x: 0, opacity: 1, duration: 0.6, ease: "power2.out", stagger: 0.1 }
+    );
+  }, [currentIndex]);
 
-    gsap.to(containerRef.current, {
-      x: -newIndex * (cardWidth + gap),
-      duration: 0.5,
-      ease: "power3.out",
-    });
-  };
+  const currentTestimonials = [
+    TestimonialData[currentIndex],
+    TestimonialData[(currentIndex + 1) % TestimonialData.length],
+  ];
 
   return (
-    <section className="w-full max-w-6xl mx-auto py-12 px-4 md:py-16">
-      {/* Header */}
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-6 gap-4">
-        <div className="text-left">
-          <span className="text-xs uppercase tracking-wide text-gray-500">
-            What They Say
-          </span>
-          <h2 className="text-2xl md:text-3xl font-semibold text-[#2b2b2b] mt-1">
+    <section className="max-w-6xl mx-auto px-4 py-16">
+      {/* Top Header */}
+      <div className="flex justify-between items-start mb-10">
+        <div>
+          <p className="text-sm text-gray-500 font-medium tracking-wider">
+            WHAT THEY SAY
+          </p>
+          <h3 className="text-3xl font-semibold text-gray-900">
             Used and Loved Worldwide
-          </h2>
+          </h3>
         </div>
-        <div className="flex items-center space-x-2">
+
+        {/* Arrows */}
+        <div className="flex space-x-4">
           <button
-            onClick={() => handleScroll("left")}
-            className="p-2 rounded-md bg-gray-100 hover:bg-gray-200 transition"
+            onClick={prev}
+            className="p-2 rounded-full bg-[#FA4515] hover:opacity-80"
           >
-            <FiArrowLeft className="w-5 h-5 text-[#2b2b2b]" />
+            <FaArrowLeft className="text-white" />
           </button>
           <button
-            onClick={() => handleScroll("right")}
-            className="p-2 rounded-md bg-gray-100 hover:bg-gray-200 transition"
+            onClick={next}
+            className="p-2 rounded-full bg-[#FA4515] hover:opacity-80"
           >
-            <FiArrowRight className="w-5 h-5 text-[#2b2b2b]" />
+            <FaArrowRight className="text-white" />
           </button>
         </div>
       </div>
 
       {/* Testimonial Cards */}
-      <div className="relative w-full overflow-hidden">
-        <div
-          ref={containerRef}
-          className="flex gap-4"
-          style={{ willChange: "transform" }}
-        >
-          {TestimonialData.map((item, idx) => (
+      <div className="grid md:grid-cols-2 gap-6">
+        {currentTestimonials.map((item, index) => {
+          const testimonialIndex =
+            (currentIndex + index) % TestimonialData.length;
+
+          return (
             <div
-              key={idx}
-              className="testimonial-card w-[90%] sm:w-[320px] flex-shrink-0 bg-white border border-gray-200 rounded-xl p-4 shadow hover:shadow-md transition flex flex-col justify-between"
+              key={index}
+              ref={(el) => (cardsRef.current[index] = el)}
+              className="relative bg-white p-6 rounded-lg shadow border flex flex-col justify-between h-60 text-left"
             >
-              <p className="text-sm text-left text-[#2b2b2b] mb-4">
-                {item.quote}
-              </p>
-              <div className="flex items-center space-x-2 mt-4">
-                <div className="w-8 h-8 rounded-full bg-gray-300 shrink-0" />
-                <div className="text-left">
-                  <p className="text-sm font-semibold text-[#2b2b2b]">
-                    {item.name}
-                  </p>
-                  <p className="text-xs text-gray-600">{item.location}</p>
+              <div>
+                <FaQuoteLeft className="text-[#FA4515] text-xl mb-2" />
+                <p className="text-gray-800 text-sm leading-relaxed">
+                  {item.quote}
+                </p>
+              </div>
+              <div className="mt-6 flex items-center pt-4 border-t border-gray-200">
+                <img
+                  src={avatars[testimonialIndex] || "/default-avatar.jpg"}
+                  alt={item.name}
+                  className="w-10 h-10 rounded-full mr-3 object-cover"
+                />
+                <div>
+                  <p className="font-semibold text-sm text-gray-900">{item.name}</p>
+                  <p className="text-xs text-gray-500">{item.location}</p>
                 </div>
               </div>
             </div>
-          ))}
-        </div>
+          );
+        })}
       </div>
     </section>
   );
 }
-
-export default Testimonials;
