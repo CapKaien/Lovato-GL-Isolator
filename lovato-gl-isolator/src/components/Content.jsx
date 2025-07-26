@@ -46,14 +46,14 @@ function Content() {
   return (
     <section
       ref={sectionRef}
-      className="w-full max-w-6xl mx-auto px-4 py-16 flex flex-col md:flex-row items-center md:items-center gap-12"
+      className="w-full max-w-6xl mx-auto px-4 py-16 flex flex-col md:flex-row items-center md:items-center gap-8 md:gap-12"
     >
       {/* Left Image */}
-      <div className="w-full md:w-1/2 relative flex items-center justify-center">
+      <div className="w-full md:w-1/2 relative flex items-center justify-center overflow-hidden">
         <img
           src={sampleImg}
           alt="Lovato GL Isolator Switch"
-          className="w-full max-w-lg h-auto object-cover rounded-2xl"
+          className="w-full max-w-full md:max-w-lg h-auto object-contain md:object-cover rounded-2xl"
         />
         {/* Safety badge */}
         {/* <div className="absolute top-0 left-1 bg-white rounded-xl p-3 px-6 shadow flex flex-col items-center">
@@ -65,7 +65,7 @@ function Content() {
           </div>
         </div> */}
         {/* Safe Switching badge */}
-        <div className="absolute bottom-4 right-4 bg-white rounded-xl p-2 shadow flex items-center space-x-2">
+        <div className="absolute bottom-2 right-2 md:bottom-4 md:right-4 bg-white rounded-xl p-2 shadow flex items-center space-x-2">
           <div className="text-xs text-gray-600">Safe Switching</div>
           <FiToggleLeft className="w-5 h-5 text-green-600" />
         </div>
@@ -77,10 +77,10 @@ function Content() {
           <span className="text-xs uppercase tracking-wide text-gray-500">
             How It Works
           </span>
-          <h2 className="text-2xl md:text-3xl font-semibold mt-2 mb-4" style={{ color: "#2b2b2b" }}>
+          <h2 className="text-xl sm:text-2xl md:text-3xl font-semibold mt-2 mb-4" style={{ color: "#2b2b2b" }}>
             Lovato GL Isolator: Built for Modern Power Systems
           </h2>
-          <p className="max-w-lg text-sm md:text-base" style={{ color: "#2b2b2b" }}>
+          <p className="text-sm md:text-base" style={{ color: "#2b2b2b" }}>
             Experience safe, reliable, and intelligent switching solutions designed for critical
             energy infrastructures. Lovato GL Isolator ensures operational efficiency, modular
             scalability, and seamless system protection.
