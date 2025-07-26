@@ -1,39 +1,52 @@
-// src/components/ScrollWrapper.jsx
-import { useEffect, useRef } from "react";
-import { useLocation } from "react-router-dom";
+// ScrollWrapper.jsx
+import React, { useEffect, useRef } from "react";
 import LocomotiveScroll from "locomotive-scroll";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import gsap from "gsap";
 import "locomotive-scroll/dist/locomotive-scroll.css";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const ScrollWrapper = ({ children }) => {
   const scrollRef = useRef(null);
-  const scrollInstance = useRef(null);
-  const location = useLocation();
 
   useEffect(() => {
-    scrollInstance.current = new LocomotiveScroll({
+    const scroll = new LocomotiveScroll({
       el: scrollRef.current,
       smooth: true,
-      lerp: 0.08,
+      lerp: 0.07,
     });
 
+    // 👇 Tell ScrollTrigger to use Locomotive Scroll
+    ScrollTrigger.scrollerProxy(scrollRef.current, {
+      scrollTop(value) {
+        return arguments.length
+          ? scroll.scrollTo(value, { duration: 0, disableLerp: true })
+          : scroll.scroll.instance.scroll.y;
+      },
+      getBoundingClientRect() {
+        return {
+          top: 0,
+          left: 0,
+          width: window.innerWidth,
+          height: window.innerHeight,
+        };
+      },
+      pinType: scrollRef.current.style.transform ? "transform" : "fixed",
+    });
+
+    // 👇 Refresh both on update
+    scroll.on("scroll", ScrollTrigger.update);
+    ScrollTrigger.addEventListener("refresh", () => scroll.update());
+
+    // Initial refresh
+    ScrollTrigger.refresh();
+
     return () => {
-      scrollInstance.current?.destroy();
+      ScrollTrigger.removeEventListener("refresh", () => scroll.update());
+      scroll.destroy();
     };
   }, []);
-
-  useEffect(() => {
-    scrollInstance.current?.scrollTo(0, { duration: 0 });
-    scrollInstance.current?.update();
-  }, [location.pathname]);
-
-  useEffect(() => {
-    // Allow time for images or async content to load
-    const timeout = setTimeout(() => {
-      scrollInstance.current?.update();
-    }, 1000);
-
-    return () => clearTimeout(timeout);
-  }, [children]);
 
   return (
     <div id="main-scroll" data-scroll-container ref={scrollRef}>

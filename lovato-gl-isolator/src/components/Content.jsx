@@ -37,6 +37,7 @@ function Content() {
           scrollTrigger: {
             trigger: box,
             start: "top 85%",
+            scroller: "[data-scroll-container]", // 👈 important
           },
         }
       );
@@ -46,52 +47,65 @@ function Content() {
   return (
     <section
       ref={sectionRef}
-      className="data-scroll-section w-full max-w-6xl mx-auto px-4 py-16 flex flex-wrap items-start gap-8 md:gap-12"
+      className="w-full max-w-6xl mx-auto px-4 py-16 flex flex-col md:flex-row items-center md:items-center gap-12"
     >
       {/* Left Image */}
-      <div className="w-full md:max-w-[48%] flex-shrink-0 relative flex items-center justify-center overflow-visible">
-        {" "}
+      <div className="w-full md:w-1/2 relative flex items-center justify-center">
         <img
           src={sampleImg}
           alt="Lovato GL Isolator Switch"
-          className="w-full max-w-xs sm:max-w-sm md:max-w-lg h-auto max-h-[400px] object-cover rounded-2xl"
+          className="w-full max-w-lg h-auto object-cover rounded-2xl"
         />
         {/* Safe Switching badge */}
-        <div className="absolute bottom-2 right-2 md:bottom-4 md:right-4 bg-white rounded-xl p-2 shadow flex items-center space-x-2">
+        <div className="absolute bottom-4 right-4 bg-white rounded-xl p-2 shadow flex items-center space-x-2">
           <div className="text-xs text-gray-600">Safe Switching</div>
           <FiToggleLeft className="w-5 h-5 text-green-600" />
         </div>
       </div>
 
       {/* Right Text and Cards */}
-      <div className="w-full md:flex-1 flex flex-col text-left">
+      <div className="w-full md:w-1/2 flex flex-col text-left">
         <div className="mb-6">
           <span className="text-xs uppercase tracking-wide text-[#FA4515]">
             How It Works
           </span>
-          <h2 className="text-lg sm:text-xl md:text-3xl font-semibold mt-2 mb-4 text-[#2b2b2b]">
+          <h2
+            className="text-2xl md:text-3xl font-semibold mt-2 mb-4"
+            style={{ color: "#2b2b2b" }}
+          >
             Lovato GL Isolator: Built for Modern Power Systems
           </h2>
-          <p className="text-sm sm:text-base md:text-lg text-[#2b2b2b]">
+          <p
+            className="max-w-lg text-sm md:text-base"
+            style={{ color: "#2b2b2b" }}
+          >
             Experience safe, reliable, and intelligent switching solutions
             designed for critical energy infrastructures. Lovato GL Isolator
             ensures operational efficiency, modular scalability, and seamless
             system protection.
           </p>
         </div>
-
         {/* Feature Cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-4 mt-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6">
           {contentData.map((item, idx) => (
             <div
               key={idx}
-              className="animate-box bg-white border border-gray-200 rounded-xl p-4 flex flex-col items-start hover:shadow-lg transition-shadow"
+              className="animate-box bg-white/20 backdrop-blur-md border border-white/30 rounded-xl p-4 flex flex-col items-start hover:shadow-lg transition-shadow"
+              style={{
+                boxShadow: "0 8px 32px rgba(31, 38, 135, 0.1)",
+                border: "1px solid rgba(255,255,255,0.18)",
+              }}
             >
               <div className="mb-2">{item.icon}</div>
-              <h3 className="text-sm font-semibold mb-1 text-[#2b2b2b]">
+              <h3
+                className="text-sm font-semibold mb-1"
+                style={{ color: "#2b2b2b" }}
+              >
                 {item.title}
               </h3>
-              <p className="text-xs text-[#2b2b2b]">{item.desc}</p>
+              <p className="text-xs" style={{ color: "#2b2b2b" }}>
+                {item.desc}
+              </p>
             </div>
           ))}
         </div>

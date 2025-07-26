@@ -9,31 +9,31 @@ const features = [
     icon: <FiZap size={32} className="stroke-white" />,
     title: "Fast Switching",
     desc: "Reliable speed for critical systems.",
-    style: { top: "70px", left: "60px" }, // moved up and left
+    style: { top: "70px", left: "220px" }, // moved up and left
   },
   {
     icon: <FiSettings size={32} className="stroke-white" />, // <-- changed here
     title: "Modular Flexibility",
     desc: "Configure your way—no limits.",
-    style: { top: "-20px", right: "130px" }, // moved up and right
+    style: { top: "-20px", right: "300px" }, // moved up and right
   },
   {
     icon: <FiGrid size={32} className="stroke-white" />,
     title: "Seamless Integration",
     desc: "Fits panels, systems, and standards.",
-    style: { bottom: "10px", left: "-80px" }, // moved down and left
+    style: { bottom: "10px", left: "130px" }, // moved down and left
   },
   {
     icon: <FiBox size={32} className="stroke-white" />,
     title: "Compact Design",
     desc: "More power in less space.",
-    style: { bottom: "200px", right: "-100px" }, // moved down and right
+    style: { bottom: "200px", right: "100px" }, // moved down and right
   },
   {
     icon: <FiLock size={32} className="stroke-white" />,
     title: "Advanced Security",
     desc: "Peace of mind with every switch.",
-    style: { bottom: "-40px", left: "70%", transform: "translateX(-50%)" }, // stays centered
+    style: { bottom: "-40px", right: "120px", transform: "translateX(-50%)" }, // stays centered
   },
 ];
 
